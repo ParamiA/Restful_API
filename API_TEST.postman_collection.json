@@ -1,0 +1,503 @@
+{
+	"info": {
+		"_postman_id": "4d0bad7f-5c08-43e1-b3d9-2407046d54c8",
+		"name": "API_TEST",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "11125489",
+		"_collection_link": "https://interstellar-zodiac-37164.postman.co/workspace/Cognite~80b4544b-460f-4ac4-bc38-540e3eeb2236/collection/11125489-4d0bad7f-5c08-43e1-b3d9-2407046d54c8?action=share&creator=11125489&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "GET_EndPoint",
+			"item": [
+				{
+					"name": "List all objects",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Check for a successful HTTP response",
+									"pm.test(\"Status code is 200\", function () {",
+									"        pm.response.to.have.status(200);     ",
+									"});",
+									"",
+									"// Check for correct status code",
+									"pm.test(\"Status description - OK\", function () {",
+									"        pm.response.to.have.status(\"OK\");   ",
+									"});",
+									"",
+									"//get the record count",
+									"    let body = pm.response.json()",
+									"    pm.test(\"Check the Items array length\", () => {",
+									"        pm.expect(body.length).to.be.greaterThan(0)",
+									"        console.log(\"LENGTH = \"+ body.length);",
+									"        });"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/objects",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"objects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List all objects by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Check for a successful HTTP response",
+									"pm.test(\"Status code is 200\", function () {",
+									"        pm.response.to.have.status(200);     ",
+									"});",
+									"",
+									"// Check for correct status code",
+									"pm.test(\"Status description - OK\", function () {",
+									"        pm.response.to.have.status(\"OK\");   ",
+									"});",
+									"",
+									"//get the record count",
+									"    let body = pm.response.json()",
+									"    pm.test(\"Check the Items array length\", () => {",
+									"        pm.expect(body.length).eql(3)",
+									"        console.log(\"LENGTH = \"+ body.length);",
+									"        });",
+									"",
+									"   ",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/objects?id={{id_1}}&id={{id_2}}&id={{id_3}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"objects"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "{{id_1}}"
+								},
+								{
+									"key": "id",
+									"value": "{{id_2}}"
+								},
+								{
+									"key": "id",
+									"value": "{{id_3}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get single object",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Check for a successful HTTP response",
+									"pm.test(\"Status code is 200\", function () {",
+									"        pm.response.to.have.status(200);     ",
+									"});",
+									"",
+									"// Check for correct status code",
+									"pm.test(\"Status description - OK\", function () {",
+									"        pm.response.to.have.status(\"OK\");   ",
+									"});",
+									"",
+									"pm.test(\"Validate response\", function () {",
+									"    var responseBody = pm.response.json(); // Assuming the response body is in JSON format",
+									"    // Access and validate properties of the response",
+									"    pm.expect(responseBody.id).to.equal(\"7\");",
+									"   ",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/objects/{{object_no}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"objects",
+								"{{object_no}}"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List object by invalid ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"//get the record count",
+									"    let body = pm.response.json()",
+									"    pm.test(\"Check the Items array length\", () => {",
+									"        pm.expect(body.length).eql(0)",
+									"        console.log(\"LENGTH = \"+ body.length);",
+									"        })"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/objects?id={{Invalid_ID}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"objects"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "{{Invalid_ID}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "POST_EndPoint",
+			"item": [
+				{
+					"name": "Create new object",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"new_object_id\", jsonData.id);",
+									"",
+									"// Check for a successful HTTP response",
+									"pm.test(\"Status code is 200\", function () {",
+									"        pm.response.to.have.status(200);     ",
+									"});",
+									"",
+									"// Check for correct status code",
+									"pm.test(\"Status description - OK\", function () {",
+									"        pm.response.to.have.status(\"OK\");   ",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"name\": \"Apple iphone 14 pro\",\n   \"data\": {\n      \"year\": 2022,\n      \"price\": 1849.99,\n      \"color\": \"Cloudy White\",\n      \"capacity GB\": 128\n   }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/objects",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"objects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create new object with invalid request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Check for a successful HTTP response",
+									"pm.test(\"Status code is 400\", function () {",
+									"        pm.response.to.have.status(400);     ",
+									"});",
+									"",
+									"// Check for correct status code",
+									"pm.test(\"Status description - Bad Request\", function () {",
+									"        pm.response.to.have.status(\"Bad Request\");   ",
+									"});",
+									"",
+									"pm.test(\"Check error message\",() => {",
+									"  pm.expect(pm.response.text()).to.include(\"you are sending incorrect body json or it is missing at all\");",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"name\": \"Apple iphone 14 pro\",\n   \"data\": {\n      \"year\": 2022,\n      \"price\": 1849.99,\n      \"color\": \"Cloudy White\",\n         \"capacity GB\": aaa\n   }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/objects",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"objects"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "PUT_EndPoint",
+			"item": [
+				{
+					"name": "Update object",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Check for a successful HTTP response",
+									"pm.test(\"Status code is 200\", function () {",
+									"        pm.response.to.have.status(200);     ",
+									"});",
+									"",
+									"// Check for correct status code",
+									"pm.test(\"Status description - OK\", function () {",
+									"        pm.response.to.have.status(\"OK\");   ",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"name\": \"Apple iphone 14 pro max\",\n   \"data\": {\n      \"year\": 2022,\n      \"price\": 1849.99,\n      \"color\": \"Cloudy White\",\n         \"capacity GB\": 256\n   }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/objects/{{new_object_id}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"objects",
+								"{{new_object_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update object with invalid id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Check for a successful HTTP response",
+									"pm.test(\"Status code is 404\", function () {",
+									"        pm.response.to.have.status(404);     ",
+									"});",
+									"",
+									"// Check for correct status code",
+									"pm.test(\"Status description - Not Found\", function () {",
+									"        pm.response.to.have.status(\"Not Found\");   ",
+									"});",
+									"",
+									"pm.test(\"Check error message\",() => {",
+									"  pm.expect(pm.response.text()).to.include(\"Object with id = invalid_id doesn't exist.\");",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \"name\": \"Apple iphone 14 pro max\",\n   \"data\": {\n      \"year\": 2022,\n      \"price\": 1849.99,\n      \"color\": \"Cloudy White\",\n         \"capacity GB\": 256\n   }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/objects/{{Invalid_ID}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"objects",
+								"{{Invalid_ID}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "DELETE_EndPoint",
+			"item": [
+				{
+					"name": "Delete object",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Check for a successful HTTP response",
+									"pm.test(\"Status code is 200\", function () {",
+									"        pm.response.to.have.status(200);     ",
+									"});",
+									"",
+									"// Check for correct status code",
+									"pm.test(\"Status description - OK\", function () {",
+									"        pm.response.to.have.status(\"OK\");   ",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/objects/{{new_object_id}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"objects",
+								"{{new_object_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete object using invalid id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Check for a successful HTTP response",
+									"pm.test(\"Status code is 404\", function () {",
+									"        pm.response.to.have.status(404);     ",
+									"});",
+									"",
+									"// Check for correct status code",
+									"pm.test(\"Status description - Not Found\", function () {",
+									"        pm.response.to.have.status(\"Not Found\");   ",
+									"});",
+									"",
+									"pm.test(\"Check error message\",() => {",
+									"  pm.expect(pm.response.text()).to.include(\"Object with id = invalid_id doesn't exist.\");",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/objects/{{Invalid_ID}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"objects",
+								"{{Invalid_ID}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
